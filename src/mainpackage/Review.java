@@ -11,6 +11,7 @@ public abstract class Review {
 	}
 
 	String Text;
+	int id;
 	ArrayList<Flag> Flags = new ArrayList<Flag>();
 	NumericalRating rating;
 }

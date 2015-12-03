@@ -5,35 +5,43 @@ import java.util.ArrayList;
 public class Reviewer {
 	
 	private QueryManager dbManager;
+	private int userID = -1; 
 	
 	enum SearchType {
 		Address,
 		LandLordName
 	}
 	
-	Reviewer() {
-		dbManager = new QueryManager();
+	Reviewer(int userID) {
+		this.dbManager = new QueryManager();
+		this.userID = userID;
 	}
 	
-	public boolean sendReview(Review review) {
-		//TODO Parse review into query.
-		
-		//Send Query
-		dbManager.sendReview();
-		
-		//TODO Report success
-		return false;
+	public void sendReview(String reviewText) {
+		dbManager.sendReview(reviewText, userID);
 	}
 	
-	public boolean reportReview(Review review, Review.Flag flag) {
-		//TODO Parse review and flag into query
-		//TODO Store flag in review for later use
+	public void flagReview(Review review, Review.Flag flag) {
+		String flagName;
+		switch (flag) {
+			case Inappropriate:
+				flagName = "Inappropriate";
+				break;
+			case Malicious:
+				flagName = "Malicious";
+				break;
+			default: 
+				flagName = "Unkown";
+				break;
+		}
 		
 		//Send Query
-		dbManager.reportReview();
+		dbManager.flagReview(review.id, flagName);
+	}
+	
+	public ArrayList<Review> getReviews() {
 		
-		//TODO Report success
-		return false;
+		return dbManager.getReviews();
 	}
 	
 	public ArrayList<Review> getReviews(String searchTerm, SearchType searchType) {
