@@ -1,10 +1,11 @@
 package mainpackage;
 
+import GUI.MainScreen;
+
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		MainScreen screen = new MainScreen();
 	}
 
 }
