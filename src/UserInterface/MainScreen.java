@@ -3,6 +3,8 @@ package UserInterface;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -11,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+
+
 
 public class MainScreen extends JFrame implements ActionListener{
 	
@@ -75,7 +79,7 @@ public class MainScreen extends JFrame implements ActionListener{
 		int toggle_searchBar_positionY = DEFAULT_HEIGHT/2;
 		
 		int toggle_add_positionX = DEFAULT_WIDTH*3/8;
-		int toggle_add_positionY = (DEFAULT_HEIGHT/2)+toggle_button_height;
+		int toggle_add_positionY = (DEFAULT_HEIGHT/2)+toggle_button_height*2;
 		
 		int toggle_search_positionX = DEFAULT_WIDTH/4+DEFAULT_WIDTH/2-toggle_button_width/4;
 		int toggle_search_positionY = toggle_searchBar_positionY;
@@ -90,18 +94,26 @@ public class MainScreen extends JFrame implements ActionListener{
 		this.add.setBounds(toggle_add_positionX, toggle_add_positionY, toggle_button_width, toggle_button_height);
 		this.search.setBounds(toggle_search_positionX, toggle_search_positionY, toggle_button_width/2, toggle_button_height/2);
 
+		//Tells what to do when a toggle button is selected
+		landlord.addItemListener(new HandlerClass(0));
+		space.addItemListener(new HandlerClass(1));
+	}
+	
+	private class HandlerClass implements ItemListener{
+		private int x = 0;
+		
+		public HandlerClass(int whatIsBeingSearched)
+		{
+			x = whatIsBeingSearched;
+		}
+
+		public void itemStateChanged(ItemEvent e) {
+			
+		}
 	}
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		if(landlord == e.getSource())
-		{
-			
-		}
-		if(space == e.getSource())
-		{
-			
-		}
 		if(search == e.getSource())
 		{
 			//gets the string being searched
@@ -111,7 +123,7 @@ public class MainScreen extends JFrame implements ActionListener{
 		}
 		if(add == e.getSource())
 		{
-			
+
 		}
 	}
 	
@@ -126,5 +138,11 @@ public class MainScreen extends JFrame implements ActionListener{
 	private void addTextBox()
 	{
 		this.main.add(this.searchText);
+	}
+	
+	public void close()
+	{
+		setVisible(false);
+		dispose();
 	}
 }
