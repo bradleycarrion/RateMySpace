@@ -1,6 +1,8 @@
 package UserInterface;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -10,7 +12,11 @@ import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
@@ -24,12 +30,17 @@ public class MainScreen extends JFrame implements ActionListener{
 	
 	//GUI Elements
 	private JPanel main;
+	private JPanel border;
 	private JToggleButton space;
 	private JToggleButton landlord;
 	private JButton search;
 	private JTextField searchText;
-	private JButton add;
+	//private JButton add;
 	private ButtonGroup group;
+	private Font title_font;
+	private JLabel title;
+	private JButton add_house;
+	private JButton add_landlord;
 
 	public MainScreen() {
 		super();
@@ -39,6 +50,7 @@ public class MainScreen extends JFrame implements ActionListener{
 		this.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		this.setVisible(true);
 		this.setResizable(false);
+		this.setBackground(Color.MAGENTA);
 	}
 	
 	private void addSubviews() {
@@ -49,20 +61,41 @@ public class MainScreen extends JFrame implements ActionListener{
 	private void initalizeGUI() {
 		main = new JPanel();
 		main.setLayout(null);
+		
+		// creation of the title
+		title_font = new Font("Lucida Calligraphy", 0, 45);
+		title = new JLabel("Rate My Space");
+		title.setFont(title_font);
+		title.setBounds((DEFAULT_WIDTH/4)+20, 30, DEFAULT_WIDTH/2, 70);
+		
+		// setting up the border for content
+		border = new JPanel();
+		border.setBounds((DEFAULT_WIDTH/4)-75, 110, (DEFAULT_WIDTH/2)+150, (DEFAULT_HEIGHT/2)+57);
+		border.setOpaque(true);
+		border.setBackground(new Color(0,0,255,0));
+		border.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+		
+		
 		space = new JToggleButton("Find a House");
-		space.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		landlord = new JToggleButton("Find a Landlord");
-		landlord.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		searchText = new JTextField();
 		search = new JButton("Search");
-		add = new JButton("Add");
+		search.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		landlord = new JToggleButton("Find a Landlord");
+		searchText = new JTextField();
+		add_house = new JButton("Add House");
+		add_house.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		add_landlord = new JButton("Add Landlord");
+		add_landlord.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
 		group = new ButtonGroup();
 		group.add(landlord);
 		group.add(space);
+		
+		
 		landlord.addActionListener(this);
 		space.addActionListener(this);
 		search.addActionListener(this);
-		add.addActionListener(this);
+		add_house.addActionListener(this);
+		add_landlord.addActionListener(this);
 		
 		
 		//Setting Size and Position
@@ -75,28 +108,24 @@ public class MainScreen extends JFrame implements ActionListener{
 		int toggle_button2_positionX = DEFAULT_WIDTH/2;
 		int toggle_button2_positionY = DEFAULT_HEIGHT/4;
 		
-		int toggle_searchBar_positionX = DEFAULT_WIDTH/4-DEFAULT_WIDTH/16;
-		int toggle_searchBar_positionY = DEFAULT_HEIGHT/2;
-		
-		int toggle_add_positionX = DEFAULT_WIDTH*3/8;
-		int toggle_add_positionY = (DEFAULT_HEIGHT/2)+toggle_button_height*2;
-		
-		int toggle_search_positionX = DEFAULT_WIDTH/4+DEFAULT_WIDTH/2-toggle_button_width/4;
-		int toggle_search_positionY = toggle_searchBar_positionY;
-		
-		//this.space.setSize(toggle_button_width, toggle_button_height);
-		//this.space.setLocation(toggle_button1_positionX, toggle_button1_positionY);
-		this.space.setBounds(toggle_button1_positionX, toggle_button1_positionY, toggle_button_width, toggle_button_height);
-		this.landlord.setBounds(toggle_button2_positionX, toggle_button2_positionY, toggle_button_width, toggle_button_height);
-		//this.landlord.setSize(toggle_button_width, toggle_button_height);
-		//this.landlord.setLocation(toggle_button2_positionX, toggle_button2_positionY);
-		this.searchText.setBounds(toggle_searchBar_positionX, toggle_searchBar_positionY, toggle_button_width*2, toggle_button_height/2);
-		this.add.setBounds(toggle_add_positionX, toggle_add_positionY, toggle_button_width, toggle_button_height);
-		this.search.setBounds(toggle_search_positionX, toggle_search_positionY, toggle_button_width/2, toggle_button_height/2);
+		int searchBar_positionX = DEFAULT_WIDTH/4-DEFAULT_WIDTH/16;
+		int searchBar_positionY = DEFAULT_HEIGHT/2;
 
+		int add_positionY = (DEFAULT_HEIGHT/2)+75;
+		
+		int search_positionX = DEFAULT_WIDTH/4+DEFAULT_WIDTH/2-toggle_button_width/4;
+		int search_positionY = searchBar_positionY;
+
+		this.space.setBounds(toggle_button1_positionX, toggle_button1_positionY, toggle_button_width, toggle_button_height+30);
+		this.landlord.setBounds(toggle_button2_positionX, toggle_button2_positionY, toggle_button_width, toggle_button_height+30);
+		this.searchText.setBounds(searchBar_positionX, searchBar_positionY, toggle_button_width*2, toggle_button_height/2);
+		this.search.setBounds(search_positionX, search_positionY, toggle_button_width/2, toggle_button_height/2);
+		this.add_house.setBounds(toggle_button2_positionX+20, add_positionY, 190, 60);
+		this.add_landlord.setBounds(toggle_button1_positionX, add_positionY, 190, 60);
+		
 		//Tells what to do when a toggle button is selected
-		landlord.addItemListener(new HandlerClass(0));
-		space.addItemListener(new HandlerClass(1));
+		this.landlord.addItemListener(new HandlerClass(0));
+		this.space.addItemListener(new HandlerClass(1));
 	}
 	
 	private class HandlerClass implements ItemListener{
@@ -120,10 +149,22 @@ public class MainScreen extends JFrame implements ActionListener{
 			String string = searchText.getText();
 			System.out.println(string);
 			
-		}
-		if(add == e.getSource())
-		{
-
+			//opens a new window based on which toggle is selected
+			if (space.isSelected()) {
+				HouseSearch search = new HouseSearch(searchText.getText());
+				this.close();
+			} else {
+				LandlordSearch search = new LandlordSearch(searchText.getText());
+				this.close();
+			}
+			
+		} else if (add_house == e.getSource()) {
+			// add house window
+			AddHouse add = new AddHouse();
+			
+		} else if (add_landlord == e.getSource()) {
+			// add landlord window
+			
 		}
 	}
 	
@@ -132,7 +173,11 @@ public class MainScreen extends JFrame implements ActionListener{
 		this.main.add(this.space);
 		this.main.add(this.landlord);
 		this.main.add(this.search);
-		this.main.add(this.add);
+		//this.main.add(this.add);
+		this.main.add(this.title);
+		this.main.add(this.border);
+		this.main.add(this.add_house);
+		this.main.add(this.add_landlord);
 	}
 	
 	private void addTextBox()
@@ -141,7 +186,7 @@ public class MainScreen extends JFrame implements ActionListener{
 	}
 	
 	public void close()
-	{
+	{   
 		setVisible(false);
 		dispose();
 	}
