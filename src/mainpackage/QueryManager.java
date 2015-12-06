@@ -30,7 +30,7 @@ public class QueryManager {
 		House house = new House(address);
 		
 		//Landlord 
-		Landlord lord = new Landlord("Brad", null);
+		Landlord lord = new Landlord("Brad");
 		
 		manager.addHouse(house, lord);
 	}
@@ -243,7 +243,7 @@ public class QueryManager {
 	}
 	
 	
-	private static QueryManager getInstance() {
+	public static QueryManager getInstance() {
 		if (singleton ==  null)
 			singleton = new QueryManager();
 		return singleton;

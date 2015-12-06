@@ -5,8 +5,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import objects.Address;
+import objects.House;
+import objects.Landlord;
+import mainpackage.QueryManager;
 
 public class AddHouse extends JFrame implements ActionListener {
 
@@ -78,7 +84,15 @@ public class AddHouse extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		close();
-		
+		try {
+			QueryManager.getInstance().addHouse(new House(new Address(street.getText(), city.getText(), state.getText(), Integer.parseInt(zipcode.getText()))), new Landlord(landlord.getText()));
+			close();
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this,
+				    e.getMessage(),
+				    "Inane error",
+				    JOptionPane.ERROR_MESSAGE);
+		}	
 	}
 }
