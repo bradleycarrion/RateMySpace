@@ -1,6 +1,6 @@
 package mainpackage;
 
-import GUI.MainScreen;
+import UserInterface.MainScreen;
 
 public class Main {
 

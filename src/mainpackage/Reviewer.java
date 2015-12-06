@@ -39,6 +39,7 @@ public class Reviewer {
 		dbManager.flagReview(review.id, flagName);
 	}
 	
+	/*
 	public ArrayList<Review> getReviews() {
 		
 		return dbManager.getReviews();
@@ -49,5 +50,5 @@ public class Reviewer {
 		
 		//Send search query and return
 		return dbManager.getReviews();
-	}
+	} */
 }

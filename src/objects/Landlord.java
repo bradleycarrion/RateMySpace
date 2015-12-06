@@ -9,9 +9,8 @@ public class Landlord {
 	public ArrayList<House> properties; // current properties
 	public ArrayList<Review> reviews;   // current reviews
 	
-	public Landlord(String name, ArrayList<House> properties, ArrayList<Review> reviews) {
+	public Landlord(String name, ArrayList<House> properties) {
 		this.name = name;
 		this.properties = properties;
-		this.reviews = reviews;	
 	}
 }

@@ -9,7 +9,7 @@ public class House {
 	public ArrayList<Review> reviews;   // current reviews
 	public NumericalRating overall_ratings;
 	
-	public House(Address address, ArrayList<Review> reviews) {
+	public House(Address address) {
 		this.address = address;
 		this.reviews = reviews;	
 		//this.overall_ratings.ratings = reviews;
