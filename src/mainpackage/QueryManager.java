@@ -29,6 +29,7 @@ public class QueryManager {
 	public static void test(QueryManager manager) {
 		testAddHouse(manager);
 		testReviewHouse(manager);
+		testLandlordReview(manager);
 	}
 	
 	private static void testAddHouse(QueryManager manager) {
@@ -47,7 +48,7 @@ public class QueryManager {
 	}
 	
 	private static void testReviewHouse(QueryManager manager) {
-		System.out.println("...Testing Adding a house review");
+		System.out.println("...Testing Adding a House review");
 		
 		//House
 		Address address = new Address("Joe", "Yes", "no", 8888);
@@ -57,6 +58,20 @@ public class QueryManager {
 		//Review 
 		String review = "OMG BEST HOSUE EVA AND ITS LIKE SO TOTS MEGOATS AWESOME";
 		manager.sendHouseReview(review, house);
+		
+		System.out.println("----------------------------------");
+	}
+	
+	private static void testLandlordReview(QueryManager manager) {
+		System.out.println("...Testing Adding a Landlord review");
+		
+		//Landlord
+		Landlord landlord = new Landlord("Joe");
+		landlord.setID(1);
+		
+		//Review 
+		String review = "OMG BEST DUDESZZZZ EVA AND ITS LIKE SO TOTS MEGOATS AWESOME";
+		manager.sendLandlordReview(review, landlord);
 		
 		System.out.println("----------------------------------");
 	}
