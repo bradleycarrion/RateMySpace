@@ -8,7 +8,9 @@ import java.util.ArrayList;
 
 import objects.Address;
 import objects.House;
+import objects.HouseReview;
 import objects.Landlord;
+import objects.LandlordReview;
 
 
 public class QueryManager {
@@ -56,8 +58,9 @@ public class QueryManager {
 		house.setID(5);
 		
 		//Review 
-		String review = "OMG BEST HOSUE EVA AND ITS LIKE SO TOTS MEGOATS AWESOME";
-		manager.sendHouseReview(review, house);
+		String text = "OMG BEST HOSUE EVA AND ITS LIKE SO TOTS MEGOATS AWESOME";
+		HouseReview review = new HouseReview(house, text);
+		manager.sendHouseReview(review);
 		
 		System.out.println("----------------------------------");
 	}
@@ -70,8 +73,9 @@ public class QueryManager {
 		landlord.setID(1);
 		
 		//Review 
-		String review = "OMG BEST DUDESZZZZ EVA AND ITS LIKE SO TOTS MEGOATS AWESOME";
-		manager.sendLandlordReview(review, landlord);
+		String text = "OMG BEST DUDESZZZZ EVA AND ITS LIKE SO TOTS MEGOATS AWESOME";
+		LandlordReview review = new LandlordReview(landlord, text);
+		manager.sendLandlordReview(review);
 		
 		System.out.println("----------------------------------");
 	}
@@ -105,8 +109,8 @@ public class QueryManager {
 	/*
 	 * @desc adds a review of a house to the database.
 	 */
-	public void sendHouseReview(String review, House house) {
-		if (house.id == -1) {
+	public void sendHouseReview(HouseReview review) {
+		if (review.house.id == -1) {
 			System.out.println("sendHouseReview was fed with an idless house! OH NO! ERROR ERROR. BAD. BAD.");
 			return;
 		}
@@ -119,8 +123,8 @@ public class QueryManager {
 			
 			//Populate object with data parameters
 			preparedStmt.setInt(1, userID);
-			preparedStmt.setInt(2, house.id);
-			preparedStmt.setString(3, review);
+			preparedStmt.setInt(2, review.house.id);
+			preparedStmt.setString(3, review.text);
 			
 			//Print query if we're in debug mode
 			if (debug) {
@@ -139,8 +143,8 @@ public class QueryManager {
 	/*
 	 * @desc adds a review of a landlord to the database.
 	 */
-	public void sendLandlordReview(String review, Landlord landlord) {
-		if (landlord.id == -1) {
+	public void sendLandlordReview(LandlordReview review) {
+		if (review.landlord.id == -1) {
 			System.out.println("sendLandlordReview was fed with an id-less landlord!!! BADDD");
 			return;
 		}
@@ -153,8 +157,8 @@ public class QueryManager {
 			
 			//Populate with data parameters
 			preparedStmt.setInt(1, userID);
-			preparedStmt.setInt(2, landlord.id);
-			preparedStmt.setString(3, review);
+			preparedStmt.setInt(2, review.landlord.id);
+			preparedStmt.setString(3, review.text);
 	
 			//Print query if we're in debug mode
 			if (debug) {

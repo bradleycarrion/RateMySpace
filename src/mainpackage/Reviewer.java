@@ -2,6 +2,8 @@ package mainpackage;
 
 import java.util.ArrayList;
 
+import objects.Review;
+
 public class Reviewer {
 	
 	private QueryManager dbManager;
