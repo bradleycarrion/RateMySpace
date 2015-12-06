@@ -18,6 +18,10 @@ public class QueryManager {
 	
 	public static void main (String args[]) {
 		QueryManager manager = new QueryManager();
+		test(manager);
+	}
+	
+	public static void test(QueryManager manager) {
 		testAddHouse(manager);
 	}
 	
@@ -32,6 +36,8 @@ public class QueryManager {
 		Landlord lord = new Landlord("Brad", null);
 		
 		manager.addHouse(house, lord);
+		
+		System.out.println(" -------------------------- ");
 	}
 	
 	/*
@@ -195,6 +201,13 @@ public class QueryManager {
 		}
 	}
 	
+	public void sendHouseReview(String review, House house) {
+		
+		//String query = "Insert into Reviews "
+	}
+	
+	
+	
 	public void flagReview(int reviewID, String name) {
 		String query = "Insert into Flag (Name, ReviewID) values (?, ?)";
 		
@@ -238,6 +251,6 @@ public class QueryManager {
 	 * @desc Constructor that automagically calls a connection so we can do stuff. 
 	 */
 	QueryManager() {
-		connect("jdbc:mysql://localhost/landlord", "root", "ejc1995");
+		connect("jdbc:mysql://localhost/landlord", "app", "password");
 	}
 }
