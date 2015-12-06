@@ -13,6 +13,7 @@ import objects.Landlord;
 
 public class QueryManager {
 	
+	private static QueryManager singleton;
 	private Connection conn;
 	private Boolean debug = true;
 	
@@ -250,7 +251,15 @@ public class QueryManager {
 	/*
 	 * @desc Constructor that automagically calls a connection so we can do stuff. 
 	 */
-	QueryManager() {
+	private QueryManager() {
 		connect("jdbc:mysql://localhost/landlord", "app", "password");
 	}
+	
+	
+	private static QueryManager getInstance() {
+		if (singleton ==  null)
+			singleton = new QueryManager();
+		return singleton;
+	}
+	
 }

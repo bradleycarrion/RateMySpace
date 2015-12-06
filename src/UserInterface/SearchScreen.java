@@ -14,8 +14,6 @@ import javax.swing.JTextField;
 
 public abstract class SearchScreen extends JFrame implements ActionListener  {
 	protected int cell_count;
-	protected ArrayList<String> generic_titles = new ArrayList<String>();   // holds generic titles for each cell
-	protected ArrayList<Integer> generic_rating = new ArrayList<Integer>();	// holds generic rating for each cell
 	
 	private static final int DEFAULT_WIDTH = 800;
 	private static final int DEFAULT_HEIGHT = 500;
