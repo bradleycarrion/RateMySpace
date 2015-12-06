@@ -16,6 +16,7 @@ public class QueryManager {
 	private static QueryManager singleton;
 	private Connection conn;
 	private Boolean debug = true;
+	private int userID = 1; //default userID
 	
 	public static void main (String args[]) {
 		QueryManager manager = new QueryManager();
@@ -24,10 +25,11 @@ public class QueryManager {
 	
 	public static void test(QueryManager manager) {
 		testAddHouse(manager);
+		testReviewHouse(manager);
 	}
 	
-	public static void testAddHouse(QueryManager manager) {
-		System.out.println("Testing Adding a House to a database...");
+	private static void testAddHouse(QueryManager manager) {
+		System.out.println("...Testing Adding a House to a database");
 		
 		//House
 		Address address = new Address("Joe", "Yes", "no", 8888);
@@ -38,7 +40,22 @@ public class QueryManager {
 		
 		manager.addHouse(house, lord);
 		
-		System.out.println(" -------------------------- ");
+		System.out.println("----------------------------------");
+	}
+	
+	private static void testReviewHouse(QueryManager manager) {
+		System.out.println("...Testing Adding a house review");
+		
+		//House
+		Address address = new Address("Joe", "Yes", "no", 8888);
+		House house = new House(address);
+		house.setID(5);
+		
+		//Review 
+		String review = "OMG BEST HOSUE EVA AND ITS LIKE SO TOTS MEGOATS AWESOME";
+		manager.sendHouseReview(review, house);
+		
+		System.out.println("----------------------------------");
 	}
 	
 	/*
@@ -174,63 +191,31 @@ public class QueryManager {
 	// --------------- End SUBQUERIES --------------- //
 	
 	
-	
-	/*
-	 * @desc sends the review to the MYSQL database
-	 */
-	public void sendReview(String review, int id) {
-		String query = " Insert into Reviews (UserID, Review) values (?, ?)";
-		
-		try {
-			//Create object that represents query from the string version of the query
-			PreparedStatement preparedStmt = conn.prepareStatement(query);
-			
-			//Populate object with data parameters
-			preparedStmt.setString(1, Integer.toString(id)); //Goes to UserID
-			preparedStmt.setString(2, review); // Goes to Review
-			
-			//Send the query
-			preparedStmt.execute();
-			
-			//Print query if we're in debug mode
-			if (debug) {
-				System.out.println(preparedStmt);
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public void sendHouseReview(String review, House house) {
+		if (house.id == -1) {
+			System.out.print("sendHouseReview was fed with an idless house! OH NO! ERROR ERROR. BAD. BAD.");
+			return;
+		}
 		
-		//String query = "Insert into Reviews "
-	}
-	
-	
-	
-	public void flagReview(int reviewID, String name) {
-		String query = "Insert into Flag (Name, ReviewID) values (?, ?)";
+		String query = "Insert into HouseReview (UserID, HouseID, Review) values (?, ?, ?)";
 		
 		try {
-			//Create object that represents query from the string version of the query
+			//Create Object
 			PreparedStatement preparedStmt = conn.prepareStatement(query);
 			
 			//Populate object with data parameters
-			preparedStmt.setString(1, name); //Goes to name
-			preparedStmt.setString(2, Integer.toString(reviewID)); // Goes to ReviewID
-			
-			//Send the query
-			preparedStmt.execute();
-			
-			//Commit
-			conn.commit();
+			preparedStmt.setInt(1, userID);
+			preparedStmt.setInt(2, house.id);
+			preparedStmt.setString(3, review);
 			
 			//Print query if we're in debug mode
 			if (debug) {
 				System.out.println(preparedStmt);
 			}
 			
+			//Send the query
+			preparedStmt.execute();
+		
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -255,8 +240,7 @@ public class QueryManager {
 		connect("jdbc:mysql://localhost/landlord", "app", "password");
 	}
 	
-	
-	private static QueryManager getInstance() {
+	public static QueryManager getInstance() {
 		if (singleton ==  null)
 			singleton = new QueryManager();
 		return singleton;
