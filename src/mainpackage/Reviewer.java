@@ -13,7 +13,7 @@ public class Reviewer {
 	}
 	
 	Reviewer(int userID) {
-		//this.dbManager = new QueryManager();
+		this.dbManager = QueryManager.getInstance();
 		this.userID = userID;
 	}
 	

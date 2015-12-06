@@ -1,9 +1,5 @@
 package objects;
 
-import java.util.ArrayList;
-
-import mainpackage.*;
-
 public class House {
 	public Address address;
 	public int id = -1;
