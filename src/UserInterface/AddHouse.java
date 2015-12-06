@@ -11,16 +11,18 @@ import javax.swing.JTextField;
 public class AddHouse extends JFrame implements ActionListener {
 
 	private static final int DEFAULT_WIDTH = 300;
-	private static final int DEFAULT_HEIGHT = 500;
+	private static final int DEFAULT_HEIGHT = 400;
 	
 	private JPanel main;
-	private JTextField address;
+	private JTextField street;
+	private JTextField city;
+	private JTextField state;
+	private JTextField zipcode;
 	private JTextField landlord;
 	private JButton add;
 	
 	public AddHouse() {
 		super();
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.initializeGUI();
 		this.addSubviews();
 		this.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -34,11 +36,16 @@ public class AddHouse extends JFrame implements ActionListener {
 		main.setLayout(null);
 		this.add(main);
 		
-		address = new JTextField();
-		address.setBounds(DEFAULT_WIDTH/6, DEFAULT_HEIGHT/5, (DEFAULT_WIDTH*2)/3, 30);
+		street = new JTextField("Street");
+		street.setBounds(DEFAULT_WIDTH/6, DEFAULT_HEIGHT/5, (DEFAULT_WIDTH*2)/3, 30);
+		
+		city = new JTextField("City");
+		city.setBounds(DEFAULT_WIDTH/6, (DEFAULT_HEIGHT/5)+40, (DEFAULT_WIDTH*2)/3, 30);
+		
+		
 		
 		landlord = new JTextField();
-		landlord.setBounds(DEFAULT_WIDTH/6, DEFAULT_HEIGHT/5-40, (DEFAULT_WIDTH*2)/3, 30);
+		landlord.setBounds(DEFAULT_WIDTH/6, DEFAULT_HEIGHT/5+80, (DEFAULT_WIDTH*2)/3, 30);
 		
 		add = new JButton("Add House");
 		add.setBounds((DEFAULT_WIDTH/2)-50, DEFAULT_HEIGHT-200, 100, 50);
@@ -49,7 +56,8 @@ public class AddHouse extends JFrame implements ActionListener {
 	}
 	
 	private void addSubviews() {
-		this.main.add(address);
+		this.main.add(street);
+		this.main.add(city);
 		this.main.add(landlord);
 		this.main.add(add);
 		

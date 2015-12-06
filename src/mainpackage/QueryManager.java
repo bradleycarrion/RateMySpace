@@ -76,10 +76,10 @@ public class QueryManager {
 	public ArrayList<Review> getReviews() {
 		return null;
 	}
-	
+	/*
 	public ArrayList<Review> getSpaces() {
 		
-	}
+	}*/
 	
 	/*
 	 * @desc Constructor that automagically calls a connection so we can do stuff. 
