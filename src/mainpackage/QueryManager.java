@@ -18,6 +18,9 @@ public class QueryManager {
 	private Boolean debug = true;
 	private int userID = 1; //default userID
 	
+	
+	// ---------------- Unit Tests ------------------- //
+	
 	public static void main (String args[]) {
 		QueryManager manager = new QueryManager();
 		test(manager);
@@ -58,6 +61,8 @@ public class QueryManager {
 		System.out.println("----------------------------------");
 	}
 	
+	// ------------------- Connections -------------------- //
+	
 	/*
 	 * @desc Connects to the database with magic and stuff. 
 	 * @param connectionString  some weird thing java wants. Example "jdbc:sqlserver:://hostname"
@@ -78,6 +83,85 @@ public class QueryManager {
 			System.out.println("!!! - Error: An SQLException happened trying to connect to the SQL server.");
 			e.printStackTrace();
 		}
+	}
+	
+	// ------------------- Publicly accessible queries ------------------------ //
+	
+	/*
+	 * @desc adds a review of a house to the database.
+	 */
+	public void sendHouseReview(String review, House house) {
+		if (house.id == -1) {
+			System.out.println("sendHouseReview was fed with an idless house! OH NO! ERROR ERROR. BAD. BAD.");
+			return;
+		}
+		
+		String query = "Insert into HouseReview (UserID, HouseID, Review) values (?, ?, ?)";
+		
+		try {
+			//Create Object
+			PreparedStatement preparedStmt = conn.prepareStatement(query);
+			
+			//Populate object with data parameters
+			preparedStmt.setInt(1, userID);
+			preparedStmt.setInt(2, house.id);
+			preparedStmt.setString(3, review);
+			
+			//Print query if we're in debug mode
+			if (debug) {
+				System.out.println(preparedStmt);
+			}
+			
+			//Send the query
+			preparedStmt.execute();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	/*
+	 * @desc adds a review of a landlord to the database.
+	 */
+	public void sendLandlordReview(String review, Landlord landlord) {
+		if (landlord.id == -1) {
+			System.out.println("sendLandlordReview was fed with an id-less landlord!!! BADDD");
+			return;
+		}
+		
+		String query = "Insert into LandlordReview(UserID, LandlordID, Review) VALUES (?, ?, ?)";
+		
+		try {
+			//Create Object 
+			PreparedStatement preparedStmt = conn.prepareStatement(query);
+			
+			//Populate with data parameters
+			preparedStmt.setInt(1, userID);
+			preparedStmt.setInt(2, landlord.id);
+			preparedStmt.setString(3, review);
+	
+			//Print query if we're in debug mode
+			if (debug) {
+				System.out.println(preparedStmt);
+			}
+			
+			//Send the query
+			preparedStmt.execute();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public ArrayList<House> getSpaces(String searchKey) {
+		//String query = "Select ";
+		
+		return null;
+	}
+	
+	public ArrayList<Landlord> getLandlords() {
+		return null;
 	}
 	
 	/*
@@ -191,47 +275,8 @@ public class QueryManager {
 	// --------------- End SUBQUERIES --------------- //
 	
 	
-	public void sendHouseReview(String review, House house) {
-		if (house.id == -1) {
-			System.out.print("sendHouseReview was fed with an idless house! OH NO! ERROR ERROR. BAD. BAD.");
-			return;
-		}
-		
-		String query = "Insert into HouseReview (UserID, HouseID, Review) values (?, ?, ?)";
-		
-		try {
-			//Create Object
-			PreparedStatement preparedStmt = conn.prepareStatement(query);
-			
-			//Populate object with data parameters
-			preparedStmt.setInt(1, userID);
-			preparedStmt.setInt(2, house.id);
-			preparedStmt.setString(3, review);
-			
-			//Print query if we're in debug mode
-			if (debug) {
-				System.out.println(preparedStmt);
-			}
-			
-			//Send the query
-			preparedStmt.execute();
-		
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	
-	public ArrayList<House> getSpaces(String searchKey) {
-		//String query = "Select ";
-		
-		return null;
-	}
-	
-	public ArrayList<Landlord> getLandlords() {
-		return null;
-	}
-	
-
+	// ----------------- Constructor and Singleton ------------- //
 	
 	/*
 	 * @desc Constructor that automagically calls a connection so we can do stuff. 
