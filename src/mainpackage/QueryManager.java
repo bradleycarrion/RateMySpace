@@ -19,6 +19,10 @@ public class QueryManager {
 	
 	public static void main (String args[]) {
 		QueryManager manager = new QueryManager();
+		test(manager);
+	}
+	
+	public static void test(QueryManager manager) {
 		testAddHouse(manager);
 	}
 	
@@ -33,6 +37,8 @@ public class QueryManager {
 		Landlord lord = new Landlord("Brad");
 		
 		manager.addHouse(house, lord);
+		
+		System.out.println(" -------------------------- ");
 	}
 	
 	/*
@@ -195,6 +201,13 @@ public class QueryManager {
 			e.printStackTrace();
 		}
 	}
+	
+	public void sendHouseReview(String review, House house) {
+		
+		//String query = "Insert into Reviews "
+	}
+	
+	
 	
 	public void flagReview(int reviewID, String name) {
 		String query = "Insert into Flag (Name, ReviewID) values (?, ?)";
