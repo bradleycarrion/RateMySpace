@@ -164,6 +164,7 @@ public class MainScreen extends JFrame implements ActionListener{
 			
 		} else if (add_landlord == e.getSource()) {
 			// add landlord window
+			AddLandlord add = new AddLandlord();
 			
 		}
 	}
@@ -173,7 +174,6 @@ public class MainScreen extends JFrame implements ActionListener{
 		this.main.add(this.space);
 		this.main.add(this.landlord);
 		this.main.add(this.search);
-		//this.main.add(this.add);
 		this.main.add(this.title);
 		this.main.add(this.border);
 		this.main.add(this.add_house);
