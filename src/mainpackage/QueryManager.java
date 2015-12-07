@@ -37,6 +37,7 @@ public class QueryManager {
 		testSearchHouses(manager);
 		testSearchLandlords(manager);
 		testGetHouseReviews(manager);
+		testGetLandlordReviews(manager);
 	}
 	
 	private static void testAddHouse(QueryManager manager) {
@@ -118,6 +119,23 @@ public class QueryManager {
 		house.setID(5);
 		
 		ArrayList<Review> reviews = manager.getHouseReviews(house);
+		
+		for (int i = 0; i < reviews.size(); i++) {
+			System.out.println(reviews.get(i).text);
+		}
+		
+		System.out.println("----------------------------------");
+	}
+	
+	private static void testGetLandlordReviews(QueryManager manager) {
+		System.out.println("...Testing getting landlord reviews");
+		
+		//Landlord
+		Landlord landlord = new Landlord("Joe");
+		landlord.setID(1);
+				
+		
+		ArrayList<Review> reviews = manager.getLandlordReviews(landlord);
 		
 		for (int i = 0; i < reviews.size(); i++) {
 			System.out.println(reviews.get(i).text);
@@ -374,14 +392,14 @@ public class QueryManager {
 		try {
 			PreparedStatement preparedStmt = conn.prepareStatement(query);
 			ResultSet results = preparedStmt.executeQuery();
-			return parseHouseReviews(results);
+			return parseReviewsFromResults(results);
 		} catch(SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
-	private ArrayList<Review> parseHouseReviews(ResultSet results) {
+	private ArrayList<Review> parseReviewsFromResults(ResultSet results) {
 		ArrayList<Review> reviews = new ArrayList<Review>();
 		try {
 			while(results.next()) {
@@ -392,6 +410,19 @@ public class QueryManager {
 			e.printStackTrace();
 		}
 		return reviews;
+	}
+	
+	public ArrayList<Review> getLandlordReviews(Landlord landlord) {
+		String query = "SELECT * FROM LandlordReview JOIN Landlord ON Landlord.LandlordID = LandlordReview.LandlordID";
+		
+		try {
+			PreparedStatement preparedStmt = conn.prepareStatement(query);
+			ResultSet results = preparedStmt.executeQuery();
+			return parseReviewsFromResults(results);
+		} catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	
