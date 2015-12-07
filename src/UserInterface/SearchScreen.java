@@ -9,11 +9,18 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
 
 
 public abstract class SearchScreen extends JFrame implements ActionListener  {
 	protected int cell_count;
+	protected JTable infotable;
+	protected JButton more;
+	protected JScrollPane scroll;
 	
 	private static final int DEFAULT_WIDTH = 800;
 	private static final int DEFAULT_HEIGHT = 500;
@@ -80,22 +87,49 @@ public abstract class SearchScreen extends JFrame implements ActionListener  {
     	search_button.setBounds(((DEFAULT_WIDTH*3)/4)-50, 22, 100, 25);
     	search_button.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     	search_button.addActionListener(this);
-
+    	
+    	more = new JButton("More Info");
+    	more.setBounds(((DEFAULT_WIDTH*3)/4)+60, 22, 100, 25);
+    	more.addActionListener(this);
+    	
+    	TableModel dataModel = new AbstractTableModel() {
+            public int getColumnCount() 
+            { 
+            	return 2; 
+            }
+            public int getRowCount() 
+            { 
+            	return 100;
+            }
+	       	 public Object getValueAt(int row, int col) 
+	         { 
+	         	return new Integer(row*col); 
+	         }
+    	};
+    	
+    	infotable = new JTable(dataModel);
+    	infotable.setBounds(80,80,DEFAULT_WIDTH-80,DEFAULT_HEIGHT-30);
+    	scroll = new JScrollPane();
+    	scroll.setBounds(0,80,50,100);
     }
     
     private void addButtons() {
     	this.main.add(back);
     	this.main.add(search_button);
+    	this.main.add(more);
+    	this.main.add(scroll);
     }
     
     private void addTable() {
     	// add the table to the subview here
+    	this.main.add(infotable);
     }
     
     private void addSearch() {
     	// add the search bar attributes to the subview here
     	this.main.add(search);
     }
+    
     
     @Override
 	public void actionPerformed(ActionEvent e) {
@@ -105,11 +139,17 @@ public abstract class SearchScreen extends JFrame implements ActionListener  {
 			this.search_phrase = this.search.getText();
 			this.populate();
 			
-		} else if (e.getSource() == this.back) {
+		} if (e.getSource() == this.back) {
 			// back button clicked
 			MainScreen back = new MainScreen();
  	       	close();
 		}
+		
+		if(e.getSource() == this.more)
+		{
+			
+		}
+		
 		
 	}
 	

@@ -19,6 +19,7 @@ public class Reviewer {
 		this.userID = userID;
 	}
 	
+	/*
 	public void sendReview(String reviewText) {
 		dbManager.sendReview(reviewText, userID);
 	}
@@ -39,7 +40,7 @@ public class Reviewer {
 		
 		//Send Query
 		dbManager.flagReview(review.id, flagName);
-	}
+	}*/
 	
 	/*
 	public ArrayList<Review> getReviews() {
