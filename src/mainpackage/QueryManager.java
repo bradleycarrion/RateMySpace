@@ -34,6 +34,7 @@ public class QueryManager {
 		testReviewHouse(manager);
 		testLandlordReview(manager);
 		testSearchHouses(manager);
+		testSearchLandlords(manager);
 	}
 	
 	private static void testAddHouse(QueryManager manager) {
@@ -89,6 +90,18 @@ public class QueryManager {
 		
 		for (int i = 0; i < houses.size(); i++) {
 			System.out.println(houses.get(i).address.street);
+		}
+		
+		System.out.println("----------------------------------");
+	}
+	
+	private static void testSearchLandlords(QueryManager manager) {
+		System.out.println("...Testing searching landlords");
+		
+		ArrayList<Landlord> lords = manager.getLandlords("Brad mchmilaln");
+		
+		for (int i = 0; i < lords.size(); i++) {
+			System.out.println(lords.get(i).name);
 		}
 		
 		System.out.println("----------------------------------");
@@ -201,7 +214,6 @@ public class QueryManager {
 			
 			//Expand our query for any key words we find
 			for (int i = 1; i < keyWords.size(); i++) {
-				extras++;
 				query += "OR Address.Street LIKE ? ";
 			}
 			
@@ -269,9 +281,74 @@ public class QueryManager {
 		return returnable;
 	}
 	
-	public ArrayList<Landlord> getLandlords() {
+	public ArrayList<Landlord> getLandlords(String searchText) {
+		String[] allWords = searchText.split(" ");
+		ArrayList<String> keyWords = selectKeyWords(allWords); //Grab all the keywords (not numbers basically)
+		
+		//If we found any keywords, continue the search; else return nothing.
+		if (keyWords.size() > 0) {
+			
+			//Build the query 
+			String query = "SELECT * FROM Landlord WHERE LordName LIKE ?";
+			
+			//Expand our query for any key words we find
+			for (int i = 1; i < keyWords.size(); i++) {
+				query += "OR LordName LIKE ? ";
+			}
+			
+			try {
+				//Create our query 
+				PreparedStatement preparedStmt = conn.prepareStatement(query);
+				
+				//Populate our query
+				for (int i = 0; i < keyWords.size(); i++) {
+					preparedStmt.setString(i+1, keyWords.get(i));
+				}
+				
+				//Print query if we're in debug mode
+				if (debug) {
+					System.out.println(preparedStmt);
+				}
+				
+				ResultSet results = preparedStmt.executeQuery();
+				return parseLandlordsFromResults(results);
+			
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return null;
+			}
+		} else {
+			//Print query if we're in debug mode
+			if (debug) {
+				System.out.println("No key words were found");
+			}
+		}
+		
 		return null;
 	}
+	
+	private ArrayList<Landlord> parseLandlordsFromResults(ResultSet results) {
+		if (results == null) {
+			return null;
+		}
+		
+		ArrayList<Landlord> lords = new ArrayList<Landlord>();
+		
+		try {
+			while(results.next()) {
+				Landlord lord = new Landlord(results.getString("LordName"));
+				lord.setID(results.getInt("LandlordID"));
+				lords.add(lord);
+			}
+			
+			return lords;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
 	
 	/*
 	 * @desc adds a house to the database with a landlord
