@@ -33,13 +33,14 @@ public class QueryManager {
 		testAddHouse(manager);
 		testReviewHouse(manager);
 		testLandlordReview(manager);
+		testSearchHouses(manager);
 	}
 	
 	private static void testAddHouse(QueryManager manager) {
 		System.out.println("...Testing Adding a House to a database");
 		
 		//House
-		Address address = new Address("Joe", "Yes", "no", 8888);
+		Address address = new Address("Joe", "Yes", "no", "8888");
 		House house = new House(address);
 		
 		//Landlord 
@@ -54,7 +55,7 @@ public class QueryManager {
 		System.out.println("...Testing Adding a House review");
 		
 		//House
-		Address address = new Address("Joe", "Yes", "no", 8888);
+		Address address = new Address("Joe", "Yes", "no", "8888");
 		House house = new House(address);
 		house.setID(5);
 		
@@ -77,6 +78,18 @@ public class QueryManager {
 		String text = "OMG BEST DUDESZZZZ EVA AND ITS LIKE SO TOTS MEGOATS AWESOME";
 		LandlordReview review = new LandlordReview(landlord, text);
 		manager.sendLandlordReview(review);
+		
+		System.out.println("----------------------------------");
+	}
+	
+	private static void testSearchHouses(QueryManager manager) {
+		System.out.println("...Testing searching for houses");
+		
+		ArrayList<House> houses = manager.getHouses("Joe street");
+		
+		for (int i = 0; i < houses.size(); i++) {
+			System.out.println(houses.get(i).address.street);
+		}
 		
 		System.out.println("----------------------------------");
 	}
@@ -201,12 +214,22 @@ public class QueryManager {
 					preparedStmt.setString(i+1, keyWords.get(i));
 				}
 				
+				//Print query if we're in debug mode
+				if (debug) {
+					System.out.println(preparedStmt);
+				}
+				
 				ResultSet results = preparedStmt.executeQuery();
 				return parseHousesFromResults(results);
 			
 			} catch (SQLException e) {
 				e.printStackTrace();
 				return null;
+			}
+		} else {
+			//Print query if we're in debug mode
+			if (debug) {
+				System.out.println("No key words were found");
 			}
 		}
 		
@@ -240,11 +263,7 @@ public class QueryManager {
 		ArrayList<String> returnable = new ArrayList<String>();
 		
 		for (int i = 0; i < words.length; i++) {
-			if (!words[i].contains("[a-zA-Z]+")) {
-				//Do something with only numbers?
-			} else {
-				returnable.add(words[i]);
-			}
+			returnable.add(words[i]);
 		}
 		
 		return returnable;
@@ -351,7 +370,7 @@ public class QueryManager {
 		preparedStmt.setString(1, house.address.street);
 		preparedStmt.setString(2, house.address.city);
 		preparedStmt.setString(3, house.address.state);
-		preparedStmt.setString(4, Integer.toString(house.address.zip));
+		preparedStmt.setString(4, house.address.zip);
 		
 		//Send the query
 		preparedStmt.execute();
