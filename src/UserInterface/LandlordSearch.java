@@ -20,6 +20,7 @@ public class LandlordSearch extends SearchScreen {
 
 	@Override
 	protected void populate() {
+		
 		// Check if there were any results
 		results = QueryManager.getInstance().getLandlords(search_phrase);
 		cell_count = results.size();
@@ -33,10 +34,9 @@ public class LandlordSearch extends SearchScreen {
 				}
 		Object[][] landlord = new Object[results.size()][1];
 		for (int i = 0; i < results.size(); ++i) {
-			landlord[i][0] = results.get(0).name;
+			landlord[i][0] = results.get(i).name;
 			
 		}
-		System.out.println(results.size());
 		
 		table = new JTable(landlord, colName);
 		table.setBounds(0, 80, super.DEFAULT_WIDTH, super.DEFAULT_HEIGHT);
@@ -45,16 +45,23 @@ public class LandlordSearch extends SearchScreen {
 	public LandlordSearch(String search_phrase) {
 		super("Search a Landlord", search_phrase);
 		populate();
-		// TODO Auto-generated constructor stub
+		this.main.add(table);
 	}
 	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 		 if (e.getSource() == super.more) {
-			 LandlordProfile profile = new LandlordProfile(new Landlord("Name"));
+			 if (table.getSelectedRow() == -1) {
+				 JOptionPane.showMessageDialog(this,
+						    "You must select a cell first",
+						    "Inane error",
+						    JOptionPane.ERROR_MESSAGE);
+			 } else {
+				 LandlordProfile profile = new LandlordProfile(results.get(table.getSelectedRow()));
+			 }
 		 }
-		 
 		 // TODO Auto-generated method stub
 		if (e.getSource() == super.search_button) {
 			// search button clicked

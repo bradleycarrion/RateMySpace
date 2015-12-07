@@ -45,7 +45,7 @@ public class MainScreen extends JFrame implements ActionListener{
 		this.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		this.setVisible(true);
 		this.setResizable(false);
-		//this.setBackground(Color.BLACK);
+		this.setBackground(Color.MAGENTA);
 	}
 	
 	private void addSubviews() {
