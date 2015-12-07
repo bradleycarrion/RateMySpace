@@ -258,7 +258,7 @@ public class QueryManager {
 				
 				//Populate our query
 				for (int i = 0; i < keyWords.size(); i++) {
-					preparedStmt.setString(i+1, keyWords.get(i));
+					preparedStmt.setString(i+1, "%" + keyWords.get(i) + "%");
 				}
 				
 				//Print query if we're in debug mode
@@ -339,7 +339,7 @@ public class QueryManager {
 				
 				//Populate our query
 				for (int i = 0; i < keyWords.size(); i++) {
-					preparedStmt.setString(i+1, keyWords.get(i));
+					preparedStmt.setString(i+1, "%" + keyWords.get(i) + "%");
 				}
 				
 				//Print query if we're in debug mode
