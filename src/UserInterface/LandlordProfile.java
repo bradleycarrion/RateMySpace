@@ -2,6 +2,8 @@ package UserInterface;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.JButton;
+
 import objects.Landlord;
 
 public class LandlordProfile extends ProfileScreen {

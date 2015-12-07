@@ -1,7 +1,6 @@
 package UserInterface;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,13 +9,10 @@ import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
@@ -38,7 +34,7 @@ public class MainScreen extends JFrame implements ActionListener{
 	//private JButton add;
 	private ButtonGroup group;
 	private Font title_font;
-	private JLabel title;
+	private JButton title;
 	private JButton add_house;
 	private JButton add_landlord;
 
@@ -50,7 +46,7 @@ public class MainScreen extends JFrame implements ActionListener{
 		this.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		this.setVisible(true);
 		this.setResizable(false);
-		this.setBackground(Color.MAGENTA);
+		//this.setBackground(Color.BLACK);
 	}
 	
 	private void addSubviews() {
@@ -64,9 +60,12 @@ public class MainScreen extends JFrame implements ActionListener{
 		
 		// creation of the title
 		title_font = new Font("Lucida Calligraphy", 0, 45);
-		title = new JLabel("Rate My Space");
-		title.setFont(title_font);
-		title.setBounds((DEFAULT_WIDTH/4)+20, 30, DEFAULT_WIDTH/2, 70);
+		title = new JButton();
+		//title.setFont(title_font);
+		title.setBounds((DEFAULT_WIDTH/4)+20, 30, DEFAULT_WIDTH/2, 74);
+		ImageIcon johnsTitle = new ImageIcon("title_image.png");
+		title.setIcon(johnsTitle);
+		
 		
 		// setting up the border for content
 		border = new JPanel();
@@ -166,6 +165,11 @@ public class MainScreen extends JFrame implements ActionListener{
 			// add landlord window
 			AddLandlord add = new AddLandlord();
 			
+		}
+		
+		if(title == e.getSource())
+		{
+			//Admin Mode
 		}
 	}
 	
