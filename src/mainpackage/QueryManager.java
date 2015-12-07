@@ -36,6 +36,7 @@ public class QueryManager {
 		testLandlordReview(manager);
 		testSearchHouses(manager);
 		testSearchLandlords(manager);
+		testGetHouseReviews(manager);
 	}
 	
 	private static void testAddHouse(QueryManager manager) {
@@ -103,6 +104,23 @@ public class QueryManager {
 		
 		for (int i = 0; i < lords.size(); i++) {
 			System.out.println(lords.get(i).name);
+		}
+		
+		System.out.println("----------------------------------");
+	}
+	
+	private static void testGetHouseReviews(QueryManager manager) {
+		System.out.println("...Testing getting house reviews");
+		
+		//House
+		Address address = new Address("Joe", "Yes", "no", "8888");
+		House house = new House(address);
+		house.setID(5);
+		
+		ArrayList<Review> reviews = manager.getHouseReviews(house);
+		
+		for (int i = 0; i < reviews.size(); i++) {
+			System.out.println(reviews.get(i).text);
 		}
 		
 		System.out.println("----------------------------------");
@@ -351,7 +369,7 @@ public class QueryManager {
 	}
 	
 	public ArrayList<Review> getHouseReviews(House house) {
-		String query = "SELECT * FROM HouseReview JOIN House ON HouseReview.HouseID = House.HouseID JOIN Address ON Address.HouseID = House.HouseID";
+		String query = "SELECT * FROM HouseReview JOIN House ON HouseReview.HouseID = House.HouseID JOIN Address ON Address.AddressID = House.AddressID";
 		
 		try {
 			PreparedStatement preparedStmt = conn.prepareStatement(query);
