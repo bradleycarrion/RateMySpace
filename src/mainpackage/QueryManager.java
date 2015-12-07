@@ -12,6 +12,7 @@ import objects.House;
 import objects.HouseReview;
 import objects.Landlord;
 import objects.LandlordReview;
+import objects.Review;
 
 
 public class QueryManager {
@@ -260,6 +261,7 @@ public class QueryManager {
 				Address address = new Address(results.getString("Street"), results.getString("City"), results.getString("State"), results.getString("Zip"));
 				
 				House house = new House(address);
+				house.setID(results.getInt("HouseID"));
 				houses.add(house);
 			}
 			
@@ -348,6 +350,31 @@ public class QueryManager {
 		}
 	}
 	
+	public ArrayList<Review> getHouseReviews(House house) {
+		String query = "SELECT * FROM HouseReview JOIN House ON HouseReview.HouseID = House.HouseID JOIN Address ON Address.HouseID = House.HouseID";
+		
+		try {
+			PreparedStatement preparedStmt = conn.prepareStatement(query);
+			ResultSet results = preparedStmt.executeQuery();
+			return parseHouseReviews(results);
+		} catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	private ArrayList<Review> parseHouseReviews(ResultSet results) {
+		ArrayList<Review> reviews = new ArrayList<Review>();
+		try {
+			while(results.next()) {
+				Review review = new Review(results.getString("Review"));
+				reviews.add(review);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return reviews;
+	}
 	
 	
 	/*

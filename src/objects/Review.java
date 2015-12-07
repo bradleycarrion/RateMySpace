@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import mainpackage.NumericalRating;
 
 
-public abstract class Review {
+public class Review {
 	public String text;
 	public NumericalRating rating;
+	
+	public Review(String text) {
+		this.text = text;
+	}
 }
