@@ -85,7 +85,7 @@ public class AddHouse extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		try {
-			QueryManager.getInstance().addHouse(new House(new Address(street.getText(), city.getText(), state.getText(), Integer.parseInt(zipcode.getText()))), new Landlord(landlord.getText()));
+			QueryManager.getInstance().addHouse(new House(new Address(street.getText(), city.getText(), state.getText(), zipcode.getText())), new Landlord(landlord.getText()));
 			close();
 			
 		} catch (Exception e) {

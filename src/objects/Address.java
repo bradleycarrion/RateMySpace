@@ -16,4 +16,5 @@ public class Address {
 	public String asString() {
 		return street + ", " + city + ", " + state + ", " + zip;
 	}
+
 }

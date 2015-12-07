@@ -247,8 +247,6 @@ public class QueryManager {
 			//Build the query 
 			String query = "SELECT * FROM House JOIN Address ON House.AddressID = Address.AddressID WHERE Address.Street LIKE ?";
 			
-			int extras = 0;
-			
 			//Expand our query for any key words we find
 			for (int i = 1; i < keyWords.size(); i++) {
 				query += "OR Address.Street LIKE ? ";
@@ -294,6 +292,7 @@ public class QueryManager {
 		
 		try {
 			while(results.next()) {
+				System.out.println(("Happened"));
 				Address address = new Address(results.getString("Street"), results.getString("City"), results.getString("State"), results.getString("Zip"));
 				
 				House house = new House(address);
