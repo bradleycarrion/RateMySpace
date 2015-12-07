@@ -36,7 +36,6 @@ public class MainScreen extends JFrame implements ActionListener{
 	private Font title_font;
 	private JButton title;
 	private JButton add_house;
-	private JButton add_landlord;
 
 	public MainScreen() {
 		super();
@@ -82,8 +81,6 @@ public class MainScreen extends JFrame implements ActionListener{
 		searchText = new JTextField();
 		add_house = new JButton("Add House");
 		add_house.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		add_landlord = new JButton("Add Landlord");
-		add_landlord.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		group = new ButtonGroup();
 		group.add(landlord);
@@ -94,7 +91,6 @@ public class MainScreen extends JFrame implements ActionListener{
 		space.addActionListener(this);
 		search.addActionListener(this);
 		add_house.addActionListener(this);
-		add_landlord.addActionListener(this);
 		
 		
 		//Setting Size and Position
@@ -119,8 +115,7 @@ public class MainScreen extends JFrame implements ActionListener{
 		this.landlord.setBounds(toggle_button2_positionX, toggle_button2_positionY, toggle_button_width, toggle_button_height+30);
 		this.searchText.setBounds(searchBar_positionX, searchBar_positionY, toggle_button_width*2, toggle_button_height/2);
 		this.search.setBounds(search_positionX, search_positionY, toggle_button_width/2, toggle_button_height/2);
-		this.add_house.setBounds(toggle_button2_positionX+20, add_positionY, 190, 60);
-		this.add_landlord.setBounds(toggle_button1_positionX, add_positionY, 190, 60);
+		this.add_house.setBounds(DEFAULT_WIDTH/2-75, add_positionY, 150, 60);
 		
 		//Tells what to do when a toggle button is selected
 		this.landlord.addItemListener(new HandlerClass(0));
@@ -161,10 +156,6 @@ public class MainScreen extends JFrame implements ActionListener{
 			// add house window
 			AddHouse add = new AddHouse();
 			
-		} else if (add_landlord == e.getSource()) {
-			// add landlord window
-			AddLandlord add = new AddLandlord();
-			
 		}
 		
 		if(title == e.getSource())
@@ -181,7 +172,6 @@ public class MainScreen extends JFrame implements ActionListener{
 		this.main.add(this.title);
 		this.main.add(this.border);
 		this.main.add(this.add_house);
-		this.main.add(this.add_landlord);
 	}
 	
 	private void addTextBox()
