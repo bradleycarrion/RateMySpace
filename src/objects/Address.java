@@ -4,9 +4,9 @@ public class Address {
 	public String street;
 	public String city;
 	public String state;
-	public int zip;
+	public String zip;
 	
-	public Address(String street, String city, String state, int zip) {
+	public Address(String street, String city, String state, String zip) {
 		this.street = street;
 		this.city = city;
 		this.state = state;
@@ -14,6 +14,6 @@ public class Address {
 	}
 	
 	public String asString() {
-		return street + ", " + city + ", " + state + ", " + Integer.toString(zip);
+		return street + ", " + city + ", " + state + ", " + zip;
 	}
 }

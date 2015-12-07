@@ -3,6 +3,7 @@ package mainpackage;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -173,10 +174,80 @@ public class QueryManager {
 		}
 	}
 	
-	public ArrayList<House> getSpaces(String searchKey) {
-		//String query = "Select ";
+	public ArrayList<House> getHouses(String streetAddress) {
+		String[] allWords = streetAddress.split(" ");
+		ArrayList<String> keyWords = selectKeyWords(allWords); //Grab all the keywords (not numbers basically)
+		
+		//If we found any keywords, continue the search; else return nothing.
+		if (keyWords.size() > 0) {
+			
+			//Build the query 
+			String query = "SELECT * FROM House JOIN Address ON House.AddressID = Address.AddressID WHERE Address.Street LIKE ?";
+			
+			int extras = 0;
+			
+			//Expand our query for any key words we find
+			for (int i = 1; i < keyWords.size(); i++) {
+				extras++;
+				query += "OR Address.Street LIKE ? ";
+			}
+			
+			try {
+				//Create our query 
+				PreparedStatement preparedStmt = conn.prepareStatement(query);
+				
+				//Populate our query
+				for (int i = 0; i < keyWords.size(); i++) {
+					preparedStmt.setString(i+1, keyWords.get(i));
+				}
+				
+				ResultSet results = preparedStmt.executeQuery();
+				return parseHousesFromResults(results);
+			
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
 		
 		return null;
+	}
+	
+	private ArrayList<House> parseHousesFromResults(ResultSet results) {
+		if (results == null) {
+			return null;
+		}
+		
+		ArrayList<House> houses = new ArrayList<House>();
+		
+		try {
+			while(results.next()) {
+				Address address = new Address(results.getString("Street"), results.getString("City"), results.getString("State"), results.getString("Zip"));
+				
+				House house = new House(address);
+				houses.add(house);
+			}
+			
+			return houses;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	private ArrayList<String> selectKeyWords(String[] words) {
+		ArrayList<String> returnable = new ArrayList<String>();
+		
+		for (int i = 0; i < words.length; i++) {
+			if (!words[i].contains("[a-zA-Z]+")) {
+				//Do something with only numbers?
+			} else {
+				returnable.add(words[i]);
+			}
+		}
+		
+		return returnable;
 	}
 	
 	public ArrayList<Landlord> getLandlords() {
