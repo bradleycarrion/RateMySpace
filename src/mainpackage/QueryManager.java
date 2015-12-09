@@ -390,6 +390,12 @@ public class QueryManager {
 		
 		try {
 			PreparedStatement preparedStmt = conn.prepareStatement(query);
+			
+			//Print query if we're in debug mode
+			if (debug) {
+				System.out.println(preparedStmt);
+			}
+			
 			ResultSet results = preparedStmt.executeQuery();
 			return parseReviewsFromResults(results);
 		} catch(SQLException e) {
@@ -412,10 +418,19 @@ public class QueryManager {
 	}
 	
 	public ArrayList<Review> getLandlordReviews(Landlord landlord) {
-		String query = "SELECT * FROM LandlordReview JOIN Landlord ON Landlord.LandlordID = LandlordReview.LandlordID";
+		
+		String query = "SELECT * FROM LandlordReview JOIN Landlord ON Landlord.LandlordID = LandlordReview.LandlordID WHERE Landlord.LandlordID = ?";
 		
 		try {
 			PreparedStatement preparedStmt = conn.prepareStatement(query);
+			
+			preparedStmt.setInt(1, landlord.id);
+			
+			//Print query if we're in debug mode
+			if (debug) {
+				System.out.println(preparedStmt);
+			}
+			
 			ResultSet results = preparedStmt.executeQuery();
 			return parseReviewsFromResults(results);
 		} catch(SQLException e) {
